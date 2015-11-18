@@ -16,7 +16,7 @@ with open("table.csv", "w", newline="") as csvfile:  # It will write results in 
             url = "https://contest.yandex.ru/contest/" + str(i) + "/enter/"  # main page url
             new_url = "https://contest.yandex.ru/contest/" + str(i) + "/participants/"  # participants url
             soup = BeautifulSoup(opener.open(url).read().decode("utf-8"), "html.parser")  # open the 1st url
-            if ("Зарегистрироваться" or "Вы участвуете в соревновании") in soup.text:
+            if ("Зарегистрироваться" or "Задачи") in soup.text:
                 title = soup.find("title").text.split(" — ")[1]
 
                 part_number = BeautifulSoup(opener.open(new_url).read().decode("utf-8"), "html.parser").find("span",
