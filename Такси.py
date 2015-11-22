@@ -4,15 +4,15 @@ with open('input.txt') as fin:
 
 a.sort()
 res = 0
-#temp = 0
-#for i in range(len(a)):
+# temp = 0
+# for i in range(len(a)):
 #    if a[i] + temp < 4:
 #        temp += a[i]
 #    else:
 #        temp = min(temp, a[i])
 #        res += 1
-
-#if temp > 0:
+#
+# if temp > 0:
 #    res += 1
 
 heh = range(len(a))

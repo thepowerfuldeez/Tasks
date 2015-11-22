@@ -1,10 +1,10 @@
 def resheto(n):
-    a = [i for i in range(n+1)]
+    a = [i for i in range(n + 1)]
     a[1] = 0
 
     m = 2
     while m <= n:
-        if not a[m]%2: a[m] = 0
+        if not a[m] % 2 and not a[m] == 2: a[m] = 0
         if a[m] != 0:
             j = m * 2
             while j < n:
