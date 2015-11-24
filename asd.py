@@ -1,3 +1,5 @@
+from math import sqrt
+
 n = int(input("n = "))
 a = list(range(n + 1))
 a[1] = 0
@@ -15,6 +17,6 @@ print(lst)
 
 def prime(a):
     if a % 2 == 0: return False
-    for i in range(3, a, 2):
+    for i in range(3, int(sqrt(a))+1, 2):
         if a % i == 0: return False
     return True

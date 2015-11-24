@@ -1,12 +1,14 @@
+from math import sqrt
+
 def isPalyndrome(a):
     return a[:len(a) // 2] == a[::-1][:-len(a) // 2]
 
 
 def isPrime(a):
-    i = 2
-    while i < a:
-        if a % i == 0: return False
-        i += 1
+    if a == 1: return False
+    for i in range(2, int(sqrt(a)) + 1):
+        if a % i == 0:
+            return False
     return True
 
 
@@ -16,7 +18,7 @@ def reshetoOfPrimePalyndromes(start, end):
 
 with open('input.txt') as fin:
     with open('output.txt', 'w') as fout:
-        a = reshetoOfPrimePalyndromes(*[int(i) for i in fin.read().strip().split()])
+        a = reshetoOfPrimePalyndromes(*(int(i) for i in fin.read().split()))
         if a:
             print(" ".join(a), file=fout)
         else:
