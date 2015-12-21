@@ -5,7 +5,7 @@ import csv
 
 opener = urllib.request.build_opener()  # to open URL's
 opener.addheaders.append(("Cookie",
-                          "Session_id="))  # Paste your Session_id from Yandex.Contest after authorisation here
+                          "Session_id=1448891942.5.0.1448561260935"))  # Paste your Session_id from Yandex.Contest after authorisation here
 
 with open("table.csv", "w", newline="") as csvfile:  # It will write results in csv file
     writer = csv.writer(csvfile, delimiter=",", quoting=csv.QUOTE_ALL)
@@ -23,6 +23,6 @@ with open("table.csv", "w", newline="") as csvfile:  # It will write results in 
                                                                             class_="ptp-status__total").text.split()[1]
 
                 writer.writerow([title, url, part_number])
-                print("#%d - %s" % (i, title))
+                print("\tПарсинг. {:.2%} процентов завершено".format(i / 2000))
         except Exception:
             pass

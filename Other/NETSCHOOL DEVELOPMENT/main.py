@@ -1,5 +1,6 @@
 import time
 from selenium import webdriver
+import csv
 
 driver = webdriver.Chrome(
     '/Users/thepowerfuldeez/Downloads/chromedriver')
@@ -72,7 +73,13 @@ def view_announcements(driver):
 
 
 auth(driver, USERNAME, PASSWORD)
-print(view_announcements(driver))
-
-time.sleep(3)  # Let the user actually see something!
+announcements = view_announcements(driver)
 driver.quit()
+
+with open("table.csv", "w", newline="") as csvfile:  # Записать результаты в файл
+    writer = csv.writer(csvfile, delimiter=";", quoting=csv.QUOTE_ALL)
+
+    for ad in announcements:
+        subj = ad["Тема"]
+        text = ad["Текст"]
+        writer.writerow([subj, text])

@@ -1,35 +1,44 @@
 from tkinter import *
+from pws import Google
 
 
 class FirstResult:
     def __init__(self, query):
-        from pws import Google
-
         self.query = query
         self.result = Google.search(query, 1)
 
     def getname(self):
-        return self.result["results"][0]["link_text"]
+        print(self.result["results"][0]["link_text"])
 
     def getlink(self):
         return self.result["results"][0]["link"]
 
 
-class NewButton:
-    def __init__(self, root, input_text, to_print):
-        self.to_print = to_print
-        Button(root, text=input_text, width=30, height=20, bg="white", fg="black", command=self.printer)\
-            .pack(side ='bottom')
+class SampleApp(Tk):
+    def __init__(self):
+        Tk.__init__(self)
+        self.title("First token text")
+        self.geometry("500x400+300+200")
+        self.resizable(False, False)
+        self.entry = Entry(self, width=50)
+        searchengine = FirstResult("x")
+        svar1 = StringVar()
+        svar2 = StringVar()
+        global temp
+        temp = ["", ""]
+        self.button = Button(self, text="Get", width=42, height=15, bg="white", fg="black", command=self.updatestatus)
+        svar1.set(temp[0])
+        svar2.set(temp[1])
+        self.textlabel = Label(self, textvariable=svar1)
+        self.linklabel = Label(self, textvariable=svar2)
+        self.entry.pack()
+        self.button.pack()
+        self.linklabel.pack(side="bottom")
+        self.textlabel.pack(side="bottom")
 
-    def printer(self):
-        print(self.to_print)
+    def updatestatus(self):
+        searchengine = FirstResult(self.entry.get())
+        temp = searchengine.getname(), searchengine.getlink()
 
-
-a = FirstResult("lolka")
-
-root = Tk()
-root.title("Текст первого запроса")
-root.geometry('500x400+300+200')
-root.resizable(False, False)
-obj = NewButton(root, "Найти", a.getname())
-root.mainloop()
+app = SampleApp()
+app.mainloop()
