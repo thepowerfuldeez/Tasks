@@ -1,6 +1,7 @@
-import time
-from selenium import webdriver
 import csv
+import time
+
+from selenium import webdriver
 
 driver = webdriver.Chrome(
     '/Users/thepowerfuldeez/Downloads/chromedriver')
@@ -76,10 +77,13 @@ auth(driver, USERNAME, PASSWORD)
 announcements = view_announcements(driver)
 driver.quit()
 
-with open("table.csv", "w", newline="") as csvfile:  # Записать результаты в файл
+csvtempfile = open("table.csv")
+
+with open("table.csv", "a", newline="") as csvfile:  # Записать результаты в файл
     writer = csv.writer(csvfile, delimiter=";", quoting=csv.QUOTE_ALL)
 
-    for ad in announcements:
+    for ad in announcements[::-1]:
         subj = ad["Тема"]
         text = ad["Текст"]
-        writer.writerow([subj, text])
+        if subj not in csvtempfile and text not in csvtempfile:
+            writer.writerow([subj, text])
