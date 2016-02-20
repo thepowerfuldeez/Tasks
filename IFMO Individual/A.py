@@ -1,19 +1,18 @@
-from itertools import combinations as cmb
+import sys
 
-with open("trap.in") as fin:
-    n, x, y = map(int, fin.readline().split())
-    a = map(int, fin.readline().split())
+sys.stdin = open("bb8.in")
+sys.stdout = open("bb8.out", "w")
 
-fout = open("trap.out", "w")
+a, b, h, w = map(int, input().split())
 
-switcher = False
+if w % b == 0:
+    res = w // b
+else:
+    res = w // b + 1
 
-for c in cmb(a, r=2):
-    if not c[0] + c[1] > x and not abs(c[0] - c[1]) < y:
-        switcher = True
-        print(*c, file=fout)
+if h % a == 0:
+    res *= h // a
+else:
+    res *= (h // a + 1)
 
-if not switcher:
-    print(0, file=fout)
-
-fout.close()
+print(res)

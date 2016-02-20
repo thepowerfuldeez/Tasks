@@ -1,35 +1,34 @@
-import urllib.request
+import requests
 from bs4 import BeautifulSoup
 import time
 
 a = []
 j = 0
 temp = 0
-opener = urllib.request.build_opener()
 
 while True:
     start_time = time.time()
 
     url = "https://vk.com/catalog.php"
 
-    soup = BeautifulSoup(opener.open(url).read(), "html.parser")
+    soup = BeautifulSoup(requests.get(url).text, "lxml")
     time.sleep(0.1)
 
-    url += "?selection=" + BeautifulSoup(opener.open(url).read(), "html.parser").find_all("div", class_="column4")[-1].find_all("a")[-1].text[:3]
+    url += "?selection=" + BeautifulSoup(requests.get(url).text, "lxml").find_all("div", class_="column4")[-1].find_all("a")[-1].text[:3]
     time.sleep(0.1)
 
-    url += "-" + BeautifulSoup(opener.open(url).read(), "html.parser").find_all("div", class_="column4")[-1].find_all("a")[-1].text[4:6]
+    url += "-" + BeautifulSoup(requests.get(url).text, "lxml").find_all("div", class_="column4")[-1].find_all("a")[-1].text[4:6]
     time.sleep(0.1)
 
-    url += "-" + BeautifulSoup(opener.open(url).read(), "html.parser").find_all("div", class_="column4")[-1].find_all("a")[-1].text[6:9:2]
+    url += "-" + BeautifulSoup(requests.get(url).text, "lxml").find_all("div", class_="column4")[-1].find_all("a")[-1].text[6:9:2]
     time.sleep(0.1)
 
-    number = int("".join(BeautifulSoup(opener.open(url).read(), "html.parser").find_all("div", class_="column2")[-1].find_all("a")[-1].text[:12].split()))
+    number = int("".join(BeautifulSoup(requests.get(url).text, "lxml").find_all("div", class_="column2")[-1].find_all("a")[-1].text[:12].split()))
     time.sleep(0.1)
 
     elapsed_time = time.time() - start_time
 
-    if j > 1:
+    if j > 0:
         res = (number - temp) / elapsed_time
         print("\t{0:.2f} чел. / сек.".format(res))
         a.append(res)

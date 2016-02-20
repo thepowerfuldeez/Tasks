@@ -4,7 +4,7 @@ import time
 from selenium import webdriver
 
 driver = webdriver.Chrome(
-    '/Users/thepowerfuldeez/Downloads/chromedriver')
+    '/Users/george/Downloads/chromedriver')
 
 USERNAME = "григорьевгг"
 PASSWORD = "321321321z"
