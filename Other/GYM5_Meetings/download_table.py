@@ -6,6 +6,7 @@ def main():
     import os
     from pyvirtualdisplay import Display
     from selenium import webdriver
+    from firebase import firebase
 
     display = Display(visible=0, size=(800, 600))
     display.start()
@@ -16,8 +17,9 @@ def main():
 
     os.chdir("/home/thepowerfuldeez/Downloads/")
     files_to_delete = os.listdir()
-    for file in files_to_delete:
-        os.remove(file)
+    if len(files_to_delete) > 1:
+        for file in files_to_delete[1:]:
+            os.remove(file)
 
     def auth(driver, username_, password_):
         driver.get('http://net.citycheb.ru')
@@ -44,7 +46,7 @@ def main():
         password = message_form.find_element_by_name("PW")
         password.send_keys(password_)
 
-        message_form.find_element_by_class_name("submit-button").click()
+        message_form.find_element_by_class_name("button-login-title").click()
 
         time.sleep(0.3)
 
@@ -65,25 +67,32 @@ def main():
 
         time.sleep(1.5)
 
-        ads_container = driver.find_element_by_class_name("adver-container")
-        ads = ads_container.find_elements_by_class_name("advertisement")
+        for x in driver.find_elements_by_tag_name("a"):
+            if "9-11" in x.text:
+                x.click()
+                time.sleep(5)
+                break
+
+        ads = driver.find_elements_by_class_name("advertisement")
 
         for ad in ads:
-            subj = ad.find_element_by_tag_name("h3").text[5:]  # Тема
+            subj = ad.find_element_by_tag_name("h3").text  # Тема
 
-            if "Расписание уроков" in subj:
-                tags = ad.find_elements_by_tag_name("a")
-                for tag in tags:
-                    if "11" in tag.text:
-                        tag.click()
-                        time.sleep(5)
-                        break
+            if "Замен" in subj:
+                content = ad.find_element_by_class_name("adver-content")
+                text = subj + "\n\n" + content.text
+                send_changes_list(text[5:])
                 break
-            break
+
+    def send_changes_list(list):
+        firebase_ref = firebase.FirebaseApplication('https://gym5meetings.firebaseio.com', None)
+        firebase_ref.delete("/schedule/changes", None)
+        firebase_ref.put("/schedule/changes", "list", list)
 
     auth(driver, USERNAME, PASSWORD)
     download_table(driver)
     driver.quit()
+    display.stop()
 
     os.chdir("/home/thepowerfuldeez/Downloads/")
     to_be_renamed = os.listdir()[0]

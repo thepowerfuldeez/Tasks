@@ -6,7 +6,7 @@ def main():
     import re
     from firebase import firebase
 
-    rb = xlrd.open_workbook("table.xls")
+    rb = xlrd.open_workbook("/home/thepowerfuldeez/Downloads/table.xls")
     sheet = rb.sheet_by_index(0)
 
     floating_number = re.compile("[0-9]+\.0")
@@ -29,7 +29,7 @@ def main():
         return easy_rows
 
     def turn_normal(a):
-        """Превращает Общество О2- 103,  Информатика И1- 317', 'Математика М1 - 309, М2 - 101, М3 - 107 в О2 И1, М1 М2 М3"""
+        """Превращает Общество О2- 103, 'Математика М1 - 309, М2 - 101, М3 - 107 в О2, М1 М2 М3"""
         return " ".join(re.findall(group_name, a[0])).upper(), " ".join(re.findall(group_name, a[1])).upper()
 
     days_map = {}
@@ -54,10 +54,12 @@ def main():
         return ";".join(x[i] for x in a)
 
     firebase_ref = firebase.FirebaseApplication('https://gym5meetings.firebaseio.com', None)
+    firebase_ref.delete("/schedule/11", None)
+    firebase_ref.delete("/schedule/10", None)
     for day in ("пн", "вт", "ср", "чт", "пт", "сб"):
         for class_number in (10, 11):
             result = get_class_lessons(day, class_number)
-            firebase_ref.post('/schedule/{}/{}'.format(str(class_number), day), result)
+            firebase_ref.put('/schedule/{}/{}'.format(str(class_number), day), "subjects", result)
             # print("Расписание {}-го класса на {}: {}".format(class_number, day, result))
 
 main()
