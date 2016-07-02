@@ -16,27 +16,20 @@ def get_info_from_film_name(film_name):
     try:
         content = eval(page.content)
         content = content["searchFilms"]
-    except: content = []
+    except Exception as e:
+        print(e.__traceback__)
+        content = []
+
     result = []
 
     for film in content:
-        try: name = film["nameRU"]
-        except: name = ""
+        name = film.get("nameRU", "")
+        description = film.get("description", "")
+        year = film.get("year", "")
+        rating = film.get("rating", "")
+        kp_id = int(film.get("id", "0"))
 
-        try: description = film["description"]
-        except: description = ""
-
-        try: year = film["year"]
-        except: year = ""
-
-        try: rating = film["rating"].split()[0]
-        except: rating = ""
-
-        try: kp_id = int(film["id"])
-        except: kp_id = 0
-
-        try: result.append([name, description, rating, year, kp_id])
-        except: pass
+        result.append([name, description, rating, year, kp_id])
 
         print([name, description, rating, year, kp_id])
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="85023f64-53d6-494e-bb9e-ab4572765a01" name="EasyFilms" url="http://easyfilms.me">
+        <fileTransfer host="easyfilms.me" port="22" rootFolder="/home/thepowerfuldeez" accessType="SFTP" password="df99df98df9bdf99df98df9bdf99df98df9b" username="thepowerfuldeez">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

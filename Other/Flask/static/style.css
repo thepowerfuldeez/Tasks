@@ -1,0 +1,54 @@
+body {
+    text-align: center;
+    margin: 7% auto auto;
+}
+
+html {
+    font-family: Futura;
+    font-size: larger;
+    background-color: azure;
+}
+
+input[type="text"] {
+    border: 1px solid #cccccc; //цвет рамки
+    border-radius: 3px; //закругление углов (общее)
+    -webkit-border-radius: 3px; //закругление углов (Google Chrome)
+    -moz-border-radius: 3px; //закругление углов (FireFox)
+    -khtml-border-radius: 3px; //закругление углов (Safari)
+    background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+    outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+    height: 40px; // высота на свое усмотрение
+    width: 160px; // ширина на свое усмотрение
+    color: #cccccc; //цвет шрифта в обычном состоянии
+    font-size: 16px; // Размер шрифта
+    font-family: Tahoma; // Стиль шрифта
+}
+
+input[type="text"]:focus {
+  color: #000000;
+  border: 1px solid #000000
+}
+
+input[type="submit"] {
+    border: 1px solid #cccccc; //цвет рамки
+    border-radius: 3px; //закругление углов (общее)
+    -webkit-border-radius: 3px; //закругление углов (Google Chrome)
+    -moz-border-radius: 3px; //закругление углов (FireFox)
+    -khtml-border-radius: 3px; //закругление углов (Safari)
+    background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+    outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+    height: 40px; // высота на свое усмотрение
+    width: 60px; // ширина на свое усмотрение
+    color: #cccccc; //цвет шрифта в обычном состоянии
+    font-size: 16px; // Размер шрифта
+    font-family: Tahoma; // Стиль шрифта
+}
+
+input[type="submit"]:focus {
+    color: #000000;
+  border: 1px solid #000000
+}
+
+.footer {
+    alignment: bottom;
+}

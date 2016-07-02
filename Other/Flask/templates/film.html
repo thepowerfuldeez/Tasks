@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}
+    {% if not kp_id %}
+        EasyFilms - любые фильмы или сериалы мгновенно
+    {% else %}
+        {{ name }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if not kp_id %}
+        <br>
+        <h1>Просто напишите название фильма или сериала, который будете смотреть</h1>
+        <h2>&nbsp;После этого нажмите на кнопку</h2>
+    {% else %}
+        <br>
+        <p><h2>Название фильма: {{ name }}</h2></p>
+        <p><h3>Описание: {{ description }}</h3></p>
+        <p>&nbsp;Рейтинг кинопоиска: {{ rating }} &nbsp;Год: {{ year }}</p>
+
+
+        <iframe src="http://v1.domkino.kz/player/player.php?kp={{ kp_id }}" width="800" height="450" scrolling="no" border=0 allowfullscreen="true"></iframe>
+        <br>
+
+    {% endif %}
+
+{% endblock %}
