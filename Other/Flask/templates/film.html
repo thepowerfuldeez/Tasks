@@ -1,26 +1,56 @@
 {% extends "layout.html" %}
+{% block head %}
+{{ super() }}
 {% block title %}
     {% if not kp_id %}
-        EasyFilms - любые фильмы или сериалы мгновенно
+                EasyFilms - любые фильмы или сериалы мгновенно
     {% else %}
         {{ name }}
     {% endif %}
+{% endblock %}
 {% endblock %}
 
 {% block content %}
     {% if not kp_id %}
         <br>
-        <h1>Просто напишите название фильма или сериала, который будете смотреть</h1>
-        <h2>&nbsp;После этого нажмите на кнопку</h2>
+        <h1>EasyFilms - это сервис для бесплатного просмотра любых фильмов и сериалов в 1 клик.</h1>
     {% else %}
         <br>
-        <p><h2>Название фильма: {{ name }}</h2></p>
-        <p><h3>Описание: {{ description }}</h3></p>
-        <p>&nbsp;Рейтинг кинопоиска: {{ rating }} &nbsp;Год: {{ year }}</p>
+        <table align="center">
+            <td>
+                {% if result_film.name %} <p><h3>Название фильма: {{ result_film.name }}</h3></p> {% endif %}
+                {% if result_film.name_en %} <p><h5>Название фильма на английском: {{ result_film.name_en }}</h5></p> {% endif %}
+                {% if result_film.description %} <p><h6>Описание: {{ result_film.description }}</h6></p> {% endif %}
+                <h5><p>{% if result_film.country %} &nbsp;<b>Страна:</b> {{ result_film.country }} {% endif %} {% if result_film.film_length %} &nbsp;<b>Длительность:</b> {{ result_film.film_length }} {% endif %} {% if result_film.genre %} &nbsp;<b>Жанр:</b> {{ result_film.genre }} {% endif %} {% if result_film.rating %} &nbsp;<b>Рейтинг кинопоиска:</b> {{ result_film.rating }} {% endif %} {% if result_film.year %} &nbsp;<b>Год:</b> {{ result_film.year }} {% endif %}</p></h5>
+            </td>
+            <td>
+                {% if result_film.poster_url %} <img src={{ result_film.poster_url }} height="350px" > {% endif %}
+            </td>
+        </table>
 
-
-        <iframe src="http://v1.domkino.kz/player/player.php?kp={{ kp_id }}" width="800" height="450" scrolling="no" border=0 allowfullscreen="true"></iframe>
         <br>
+        <iframe align="center" src="http://v1.domkino.kz/player/player.php?kp={{ kp_id }}" width="800" height="450" scrolling="no" border=0 allowfullscreen="true"></iframe>
+        <br>
+        <br>
+        <br>
+        <table align="center" class="large-6 large-8">
+            {% if other %}
+                <td>
+                <p><b>Возможно, вы имели в виду:</b></p>
+                    {% for film in other %}
+                        <p><a href='/{{ film.kp_id }}' title={{ film.description }}>{{ film.name }} ({{ film.name_en }})</a></p>
+                    {% endfor %}
+                </td>
+            {% endif %}
+            {% if similar %}
+                <td>
+                <p><b>Похожее:</b></p>
+                    {% for film in similar %}
+                        <p><a href='/{{ film.kp_id }}' title={{ film.description }}>{{ film.name }} ({{ film.name_en }})</a></p>
+                    {% endfor %}
+                </td>
+            {% endif %}
+        </table>
 
     {% endif %}
 
