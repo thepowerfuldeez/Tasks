@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 {% block head %}
-{{ super() }}
-{% block title %}
-    {% if not kp_id %}
-                EasyFilms - любые фильмы или сериалы мгновенно
-    {% else %}
-        {{ name }}
-    {% endif %}
-{% endblock %}
+    {{ super() }}
+    {% block title %}
+        {% if not kp_id %}
+                    EasyFilms - любые фильмы или сериалы мгновенно
+        {% else %}
+            {{ name }}
+        {% endif %}
+    {% endblock %}
 {% endblock %}
 
 {% block content %}
@@ -29,7 +29,11 @@
         </table>
 
         <br>
-        <iframe align="center" src="http://v1.domkino.kz/player/player.php?kp={{ kp_id }}" width="800" height="450" scrolling="no" border=0 allowfullscreen="true"></iframe>
+        <!--<div id="moonwalkPlayer"></div> &lt;!&ndash; Сюда будет выведен плеер !&ndash;&gt;-->
+        <!--<script type="text/javascript" async src="http://moonwalk.co/player_api?w=800&h=480&kp_id= {{ kp_id }}"></script>-->
+
+        <iframe width="853" height="480" src="http://comics-film.xyz/moonplayer/video/a89ac8052392fa6f/iframe" allowfullscreen="true"></iframe>
+
         <br>
         <br>
         <br>
