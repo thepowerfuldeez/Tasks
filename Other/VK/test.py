@@ -64,8 +64,10 @@ class TableParser:
 vk_session = vk_api.VkApi(os.environ["VK_LOGIN"], os.environ["VK_PASSWORD"], app_id=5559651)
 vk_session.authorization()
 
-name = "Григорьев Георгий"
+name = "Пронина Екатерина"
+# name = "Григорьев Георгий"
 vk_session.method("messages.send", {
-    'domain': 'thepowerfuldeez',
+    # 'domain': 'thepowerfuldeez',
+    'domain': 'katerina.pronina',
     'message': "You're {}".format(TableParser("PMI", True).get_contest_num(name))
 })

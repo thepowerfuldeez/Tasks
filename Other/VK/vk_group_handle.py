@@ -1,8 +1,8 @@
 import pickle
 import vk_api
-import re
 import os
 from tqdm import tqdm
+from collections import Counter
 
 login, password = os.environ['VK_LOGIN'], os.environ['VK_PASSWORD']
 vk_session = vk_api.VkApi(login, password)
@@ -24,31 +24,29 @@ tools = vk_api.VkTools(vk_session)
 """
 
 result = []
-result_board = []
 
-regex = re.compile('\[.+\]')
-# wall = tools.get_all('wall.get', 100, {'owner_id': -76552532})
-#
-# for i in tqdm(range(len(wall["items"]))):
-#     wall_item = wall["items"][i]
-#
-#     post_text = wall_item.get("text", "")
-#     post_id = wall_item.get("id", 0)
-#     comments_count = wall_item.get("comments", {}).get("count", 0)
-#
-#     comments = tools.get_all('wall.getComments', 100, {'owner_id': -76552532, 'post_id': post_id, 'count': comments_count}).get("items", [])
-#     comments = [re.sub(regex, "", comment.get("text", "")) for comment in comments if comment.get("text", "")]
-#
-#     result.append([post_text, comments])
-#
-#     if i % 100 == 0:
-#         with open("vk_dumped.pickle", "wb") as file:
-#             pickle.dump(result, file)
+wall = tools.get_all('wall.get', 100, {'owner_id': -76552532})
+owner_id_counter = Counter()
+id_counter = Counter()
 
-group_comments = tools.get_all('board.getComments', 100, {'group_id': 76552532, 'topic_id': 31801553})
-for comment in group_comments['items']:
-    post_text = re.sub(regex, "", comment.get("text", ""))
-    print(post_text)
-    result_board.append(post_text)
-with open("vk_dumped_board.pickle", "wb") as file:
-    pickle.dump(result_board, file)
+for i, wall_item in tqdm(enumerate(wall["items"])):
+    post_id = wall_item.get("id", 0)
+    owner_id = wall_item.get('owner_id', 0)
+
+    comments_count = wall_item.get("comments", {}).get("count", 0)
+
+    comments = tools.get_all('wall.getComments', 100, {'owner_id': -76552532, 'post_id': post_id, 'count': comments_count}).get("items", [])
+    comments_user_ids = [str(comment.get('from_id', 0)) for comment in comments if comment.get('from_id', 0)]
+
+    if owner_id:
+        owner_id_counter.update(str(owner_id))
+        id_counter.update(str(owner_id))
+    if comments_user_ids:
+        id_counter.update(comments_user_ids)
+
+    if i % 100 == 0:
+        with open("vk_dumped.pickle", "wb") as file:
+            pickle.dump(result, file)
+
+print(owner_id_counter)
+print(id_counter)

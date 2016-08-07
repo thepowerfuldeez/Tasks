@@ -11,6 +11,7 @@ class TableParser:
     MATOBES_TABLE_ORIGINALS = "http://admarkov.ru/rating/spbu?link=https%3A%2F%2Fcabinet.spbu.ru%2FLists%2F1k_EntryLists%2Flist_b83a1ed5-8d4b-4ecb-86cb-c81762b25d0e.html&orig=on&first=on"
     PMI_TABLE_OK = "http://admarkov.ru/rating/spbu?link=https%3A%2F%2Fcabinet.spbu.ru%2FLists%2F1k_EntryLists%2Flist_2f51dacc-f17a-4c72-b623-2f0525cbb88a.html&nobvi=on&first=on"
     PMI_TABLE_ORIGINALS = "http://admarkov.ru/rating/spbu?link=https%3A%2F%2Fcabinet.spbu.ru%2FLists%2F1k_EntryLists%2Flist_2f51dacc-f17a-4c72-b623-2f0525cbb88a.html&orig=on&first=on"
+    PMI_PMIPU_TABLE_ORIGINALS = "http://admarkov.ru/rating/spbu?link=https%3A%2F%2Fcabinet.spbu.ru%2FLists%2F1k_EntryLists%2Flist_97a05ded-f28d-4929-aead-b6dc7cfc9f99.html&orig=on&first=on"
 
     def __init__(self, type="MATOBES", originals=False, inf=False):
         if type == "MATOBES":
@@ -23,6 +24,9 @@ class TableParser:
                 soup = bs(requests.get(self.PMI_TABLE_ORIGINALS).content, "lxml")
             else:
                 soup = bs(requests.get(self.PMI_TABLE_OK).content, "lxml")
+        else:
+            soup = bs(requests.get(self.PMI_PMIPU_TABLE_ORIGINALS).content, "lxml")
+
         self.table = [[td.text for td in tr.find_all("td")] for tr in soup.find("tbody").find_all("tr")]
         self.originals = originals
         self.inf = inf
@@ -79,13 +83,14 @@ class Vk:
                 name = user.get('first_name') + ' ' + user.get('last_name')
                 city = user.get('city').get('title')
                 domain = 'http://new.vk.com/' + user.get('domain')
-                return [domain, name, city]
+                id = user.get('id')
+                return [domain, name, city, id]
         except:
             return None
 
 
 def print_into(vk, originals, inf, text, file):
-    credentials = TableParser(originals=originals, inf=inf).get_all_names()
+    credentials = TableParser(type="PMI_PMPU", originals=originals, inf=inf).get_all_names()
     # print(len(credentials))
     users = []
     # print(file=file)
@@ -97,9 +102,13 @@ def print_into(vk, originals, inf, text, file):
     for cr in credentials:
         user = vk.get_user_from_cr(cr['name'], *cr['bday'])
         if user:
-            users.append(user)
-            # print(*user, sep=";", file=file)
-            print(*user, sep='\t')
+            # r = vk.vk_session.method('messages.getHistory', {
+            #     'user_id': user[-1]
+            # })
+            # if not r.get('count', 0):
+                users.append(user)
+                # print(*user, sep=";", file=file)
+                print(*user[:-1], sep='\t')
             # print(len(users))
 
 
@@ -110,5 +119,5 @@ if __name__ == '__main__':
         print(*["VK", "Имя", "Город"], sep="\t")
         print_into(vk, originals=True, inf=True, text="Пред. абитуриенты (Оригинал+Информатика)", file=ftable)
         print_into(vk, originals=True, inf=False, text="Пред. абитуриенты (Оригинал)", file=ftable)
-        print_into(vk, originals=False, inf=True, text="Пред. абитуриенты (ОК+Информатика)", file=ftable)
-        print_into(vk, originals=False, inf=False, text="Пред. абитуриенты (ОК)", file=ftable)
+        # print_into(vk, originals=False, inf=True, text="Пред. абитуриенты (ОК+Информатика)", file=ftable)
+        # print_into(vk, originals=False, inf=False, text="Пред. абитуриенты (ОК)", file=ftable)
