@@ -1,21 +1,24 @@
-from scipy.misc import imread, imresize
+import numpy as np
+
+t0 = 0
+h = 0.05
+T = 10
+
+A = np.array([1, 2, 3, 1, 3, 1, 4, 5, 6], dtype="float64").reshape(3, 3)
+x = np.array([1, 1, 1], dtype="float64").reshape(3)
 
 
-def predict_to_image(photo, emoji_images, prediction, bb):
-    if prediction == "Angry":
-        img = imresize(imread(emoji_images[0]), bb)
-    elif prediction == "Disgust":
-        img = imresize(imread(emoji_images[1]), bb)
-    elif prediction == "Fear":
-        img = imresize(imread(emoji_images[2]), bb)
-    elif prediction == "Happy":
-        img = imresize(imread(emoji_images[3]), bb)
-    elif prediction == "Sad":
-        img = imresize(imread(emoji_images[4]), bb)
-    elif prediction == "Surprise":
-        img = imresize(imread(emoji_images[5]), bb)
-    elif prediction == "Neutral":
-        img = imresize(imread(emoji_images[6]), bb)
+def f(x):
+    return (-A).dot(x)
 
-    photo[bb[0]:bb[2], bb[1]:bb[3], :] = img
-    return photo
+
+while t0 < T:
+    K1 = h*f(x)
+    K2 = h*f(x + K1/2)
+    K3 = h*f(x + K2/2)
+    K4 = h*f(x + K3)
+    d = 1 / 6 * (K1*h + 2 * K2*h + 2 * K3*h + K4*h)
+    x += d
+    t0 += h
+
+print(x)

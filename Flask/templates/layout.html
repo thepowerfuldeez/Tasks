@@ -19,14 +19,11 @@
     </head>
   <body>
     <div id="content">
-        <a href="/"><img src="static/logo.png"></a>
-        <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
-        <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
-        <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus,twitter,whatsapp"></div>
         <br>
+        <p>Введите ссылку на ваш вопрос</p>
         <form action="/" method="post">
             <div style="margin-left: 20%; margin-right: 20%" >
-                <input name="film" type="text" placeholder="Название фильма или сериала" />
+                <input name="film" type="text" placeholder="Ссылка" />
                 <input class="button" type="submit" value="Поиск" />
             </div>
         </form>
@@ -36,16 +33,6 @@
         <script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
         <script>
             $(document).foundation();
-        </script>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- ff -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-3301926983377294"
-             data-ad-slot="6957480247"
-             data-ad-format="auto"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
         <br>
         <br>
@@ -57,36 +44,6 @@
         <td>
             <p>&copy; Copyright 2016 by <a href="https://new.vk.com/thepowerfuldeez">ThePowerfulDeeZ</a>.</p>
             <p>Принимаются любые предложения и замечания.</p>
-        </td>
-        <td>
-            <!-- Yandex.Metrika counter -->
-            <script type="text/javascript">
-                (function (d, w, c) {
-                    (w[c] = w[c] || []).push(function() {
-                        try {
-                            w.yaCounter38317705 = new Ya.Metrika({
-                                id:38317705,
-                                clickmap:true,
-                                trackLinks:true,
-                                accurateTrackBounce:true
-                            });
-                        } catch(e) { }
-                    });
-
-                    var n = d.getElementsByTagName("script")[0],
-                        s = d.createElement("script"),
-                        f = function () { n.parentNode.insertBefore(s, n); };
-                    s.type = "text/javascript";
-                    s.async = true;
-                    s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-                    if (w.opera == "[object Opera]") {
-                        d.addEventListener("DOMContentLoaded", f, false);
-                    } else { f(); }
-                })(document, window, "yandex_metrika_callbacks");
-            </script>
-            <noscript><div><img src="https://mc.yandex.ru/watch/38317705" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-            <!-- /Yandex.Metrika counter -->
         </td>
       {% endblock %}
     </div>
